@@ -1,0 +1,142 @@
+messages:
+  fail:
+     alreadyRate: "Ты уже голосовал"
+     youMemberDuel: "Ты участник в дуэле"
+     notEnoughArgs: "Не хватает аргументов"
+     notEnoughPlayers: "Не хватает игроков"
+     notFoundArena: "Арена не найдена"
+     alreadyStarted: "Игра уже началась"
+     maxPlayers: "Максимум игроков"
+     noPerm: "Нету прав"
+     selectItem: "Возьми предмет в руку"
+     itemCannotUpgrade: "Этот предмет не может быть улучшен"
+     duelAlreadyStarted: "Дуэль уже началась"
+     duelNotFound: "Сейчас нету дуэли"
+     notEnoughMoney: "Не хватает монет"
+  success:
+     arenaCreated: "Арена успешно создана"
+     locChanged: "Локация успешно изменена"
+     itemSelected: "Предмет успешно выбран"
+     itemUpgraded: "Предмет успешно улучшен"
+     perkSelected: "Перк %perk% успешно выбран"
+     successStarted: "Игра успешно началась"
+     successStopped: "Игра успешно закончилась"
+     mapReloaded: "Конфиг карты успешно перезагружен"
+  info:
+     playerWin: "%player% победил в игре"
+     deposit: "+%money% монет"
+     joinPlayer: "Игрок %player% присоединился: %players%/%maxPlayersCount%"
+     clickToRate: "&n&lНажмите сюда, чтобы поставить ставку"
+     serverReload: "Сервер перезапускается"
+     quitPlayer: "Игрок %player% вышел: %players%/%maxPlayersCount%"
+     lobbySetted: "Лобби установлено"
+     gameStopped: "Игра окончена"
+     withdraw: "-%money% монет"
+     playerLose: "Игрок %player% выбыл из игры"
+     playerLostLive: "Игрок %player% потерял жизнь, осталось %lives%"
+     helpGame:
+     - "&3Команды:"
+     - "/game start - &eначать игру"
+     - "/game stop - &eостановить игру"
+     - "/game duelProfiles - &eоткрыть меню профилей дуэлянцев"
+     - "/game upgrade - &eоткрыть меню улучшения предмета"
+     helpMap:
+     - "&3Команды:"
+     - "/map setlobby - &eустановить лобби"
+     - "/map arena create <name> - &eсоздать арену"
+     - "/map arena setspawn <name> - &eустановить спавн игроку"
+     - "/map arena setspawnmob - &eустановить спавн мобам"
+     - "/map duel setp1 - &eустановить спавн 1-му игроку"
+     - "/map duel setp2 - &eустановить спавн 2-му игроку"
+     - "/map duel setview - &eустановить спавн зрителей"
+     - "/map reload - &eперезагрузка конфига"
+
+bossbar:
+   waitingPlayers: "Ожидание игроков. Осталось %players%"
+   waitingGame: "Ожидание начала игры"
+   waitingWave: "До начала %wave% волны"
+   timerToDeath: "До смерти всех кто не убил мобов"
+   timerToBoost: "Время до усиления мобов"
+
+menus:
+   rates:
+      name: "Ставка на %player%"
+      costRate: "Ваша общая ставка: %money%"
+      back: "Назад"
+   upgrade:
+      name: "Улучшение предмета"
+      costUpgrade: "Стоимость улучшения: %money%"
+   profile:
+      name: "Профиль %player%"
+      back: "Назад"
+   duel:
+      name: "Профили дуэльянцев"
+      loreFormat:
+      - "Побед: %wins%"
+      - "Поражений: %loses%"
+      - ""
+      - "ЛКМ - поставить ставку"
+      - "ПКМ - посмотреть профиль"
+   selectItem: "Выбор предмета"
+   selectPerk: "Выбор перка"
+
+perks:
+   berserk:
+      name: "Берсерк"
+      lore:
+      - "Скорость и урон увеличиваются на:"
+      - "10%, если уровень здоровья меньше 42.5%"
+      - "15%, если уровень здоровья меньше 22.5%"
+      - "20%, если уровень здоровья меньше 12.5%"
+   swordman:
+      name: "Мечник"
+      lore:
+      - "+15% урон с мечей"
+   archer:
+      name: "Лучник"
+      lore:
+      - "+18% урон с лука"
+   lucky:
+      name: "Везунчик"
+      lore:
+      - "+25% валюты за волны"
+   gladiator:
+      name: "Гладиатор"
+      lore:
+      - "+45% валюты за победы на дуэлях"
+   titan:
+      name: "Титан"
+      lore:
+      - "4 дополнительных сердца"
+   dodger:
+      name: "Ловкач"
+      lore:
+      - "+20% шанс увернутся от атаки"
+   masterweapon:
+      name: "Мастер оружия"
+      lore:
+      - "Шанс 7% нанести двойной урон"
+   assassin:
+      name: "Ассасин"
+      lore:
+      - "+20% к скорости бега"
+   gambling:
+      name: "Азартный"
+      lore:
+      - "+20% валюты с выигранных ставок"
+
+scoreboard:
+   name: "  CSC MiniGame  "
+   lines:
+   - " "
+   - " Баланс:"
+   - " %money%"
+   - "  "
+   - " Волна:"
+   - " %wave%"
+   - "   "
+   - " Игроков:"
+   - " %players%"
+   - "    "
+   
+

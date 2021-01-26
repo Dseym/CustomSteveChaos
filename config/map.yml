@@ -1,0 +1,5 @@
+lobby: "world 0 100 0"
+duel:
+   locView: "world 0 105 10"
+   locPlayer1: "world 0 100 5"
+   locPlayer2: "world 0 100 -5"

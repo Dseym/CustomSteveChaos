@@ -1,0 +1,19 @@
+test1:
+   spawn: "world 1 100 0"
+   spawnMob: "world 5 100 0"
+
+test2:
+   spawn: "world 1 100 0"
+   spawnMob: "world 5 100 0"
+
+test3:
+   spawn: "world 1 100 0"
+   spawnMob: "world 5 100 0"
+
+test4:
+   spawn: "world 1 100 0"
+   spawnMob: "world 5 100 0"
+
+test5:
+   spawn: "world 1 100 0"
+   spawnMob: "world 5 100 0"
