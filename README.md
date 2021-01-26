@@ -29,10 +29,10 @@ The idea for the mode was taken from the Cristalix server.
 /game help
 ```
 
-For free usage
+For free usage.
 
 # RUS
-The idea for the mode was taken from the Cristalix server.
+Идея режима взята с сервера Cristalix.
 ## Компиляция
 1. Скачай исходники и загрузи, например, в Eclipse
 2. Добавь внешние JARs: [Server Core](https://getbukkit.org/download/craftbukkit) 1.8.
