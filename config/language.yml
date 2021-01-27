@@ -40,6 +40,7 @@ messages:
      - "/game stop - &eостановить игру"
      - "/game duelProfiles - &eоткрыть меню профилей дуэлянцев"
      - "/game upgrade - &eоткрыть меню улучшения предмета"
+     - "/game help - &eэта команда"
      helpMap:
      - "&3Команды:"
      - "/map setlobby - &eустановить лобби"
@@ -50,6 +51,7 @@ messages:
      - "/map duel setp2 - &eустановить спавн 2-му игроку"
      - "/map duel setview - &eустановить спавн зрителей"
      - "/map reload - &eперезагрузка конфига"
+     - "/map help - &eэта команда"
 
 bossbar:
    waitingPlayers: "Ожидание игроков. Осталось %players%"

@@ -22,10 +22,11 @@ public class LocationUtil {
 	
 	public static Location parseLoc(String str) throws ParseException {
 		
+		String[] split = str.split(" ");
+		World world = Bukkit.getWorld(split[0]);
+		if(world == null) throw new ParseException("Location: " + str + " - World not found", 0);
+		
 		try {
-			String[] split = str.split(" ");
-			World world = Bukkit.getWorld(split[0]);
-			if(world == null) throw new ParseException(str + " - World not found", 0);
 			int x = Integer.parseInt(split[1]),
 				y = Integer.parseInt(split[2]),
 				z = Integer.parseInt(split[3]);
@@ -41,8 +42,7 @@ public class LocationUtil {
 			} else loc = new Location(world, x, y, z);
 			
 			return loc;
-			
-		} catch (Exception e) {throw new ParseException(str, 0);}
+		} catch (Exception e) {throw new ParseException("Location: " + str, 0);}
 		
 	}
 	
