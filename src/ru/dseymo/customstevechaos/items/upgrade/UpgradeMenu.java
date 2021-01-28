@@ -52,7 +52,7 @@ public class UpgradeMenu extends Menu {
 	private ItemStack upgradeStack;
 	private int cost;
 	
-	public UpgradeMenu() {super(Main.getInstance().getLanguage("menus.upgrade.name"), 45);}
+	public UpgradeMenu() {super(Main.getInstance().getLanguage("menus.upgrade.name"), 45, true);}
 	
 	
 	private boolean buy = false;

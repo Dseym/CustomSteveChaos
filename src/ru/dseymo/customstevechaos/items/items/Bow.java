@@ -16,7 +16,7 @@ public class Bow extends Item {
 	@Override
 	public void onCreate(ItemStack stack) {
 		
-		stack.addEnchantment(Enchantment.ARROW_INFINITE, 1);
+		stack.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
 		
 	}
 

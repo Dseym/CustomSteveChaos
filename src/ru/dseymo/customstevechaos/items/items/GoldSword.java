@@ -16,9 +16,9 @@ public class GoldSword extends Item {
 	@Override
 	public void onCreate(ItemStack stack) {
 		
-		stack.addEnchantment(Enchantment.FIRE_ASPECT, 2);
-		stack.addEnchantment(Enchantment.KNOCKBACK, 3);
-		stack.addEnchantment(Enchantment.DAMAGE_ALL, 1);
+		stack.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 1);
+		stack.addUnsafeEnchantment(Enchantment.KNOCKBACK, 2);
+		stack.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1);
 		
 	}
 	

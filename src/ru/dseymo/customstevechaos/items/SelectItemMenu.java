@@ -19,7 +19,7 @@ public class SelectItemMenu extends Menu {
 	private HashMap<Integer, ItemStack> items = new HashMap<>();
 	
 	public SelectItemMenu() {
-		super(Main.getInstance().getLanguage("menus.selectItem"), 45);
+		super(Main.getInstance().getLanguage("menus.selectItem"), 45, true);
 		
 		List<Items> items = Arrays.asList(Items.values());
 		Collections.shuffle(items);

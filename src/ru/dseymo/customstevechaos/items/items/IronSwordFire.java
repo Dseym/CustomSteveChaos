@@ -15,7 +15,7 @@ public class IronSwordFire extends Item {
 	@Override
 	public void onCreate(ItemStack stack) {
 		
-		stack.addEnchantment(Enchantment.FIRE_ASPECT, 1);
+		stack.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 0);
 		
 	}
 	

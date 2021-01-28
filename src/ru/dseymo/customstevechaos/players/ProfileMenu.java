@@ -14,7 +14,7 @@ public class ProfileMenu extends Menu {
 	private Menu from;
 	
 	public ProfileMenu(Player p, Menu from) {
-		super(Main.getInstance().getLanguage("menus.profile.name").replace("%player%", p.getBP().getName()), 54);
+		super(Main.getInstance().getLanguage("menus.profile.name").replace("%player%", p.getBP().getName()), 54, true);
 		
 		this.from = from;
 		

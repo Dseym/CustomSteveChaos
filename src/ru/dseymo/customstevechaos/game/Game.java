@@ -204,6 +204,9 @@ public class Game implements Listener {
 	public void waveEnded(PlayerEndWaveEvent e) {
 		if(status != Status.WAVE || Map.getInstance().getDuel().isStart()) return;
 		
+		org.bukkit.entity.Player _p = e.getPlayer().getBP();
+		new BukkitRunnable() {@Override public void run() {if(_p != null) _p.setHealth(_p.getMaxHealth());}}.runTaskLater(Main.getInstance(), 5);
+		
 		for(Player p: getNotSpecPlayers())
 			if(!p.getArena().isDone())
 				return;
@@ -211,11 +214,6 @@ public class Game implements Listener {
 		
 		nextDuel();
 		giveItem();
-		
-		org.bukkit.entity.Player _p = e.getPlayer().getBP();
-		_p.setHealth(_p.getMaxHealth());
-		new BukkitRunnable() {@Override public void run() {if(_p != null && _p.isOnline()) _p.setHealth(_p.getMaxHealth());}}.runTaskLater(Main.getInstance(), 10);
-		_p.setWalkSpeed(0.2f);
 		
 		status = Status.WAITING_WAVE;
 	}

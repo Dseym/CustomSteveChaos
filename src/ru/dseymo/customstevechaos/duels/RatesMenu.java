@@ -17,7 +17,7 @@ public class RatesMenu extends Menu {
 	private Player target;
 	
 	public RatesMenu(Duel duel, Player p, Player target, Menu from) {
-		super(Main.getInstance().getLanguage("menus.rates.name").replace("%player%", target.getBP().getName()), 27);
+		super(Main.getInstance().getLanguage("menus.rates.name").replace("%player%", target.getBP().getName()), 27, true);
 		
 		this.duel = duel;
 		this.target = target;

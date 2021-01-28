@@ -75,6 +75,7 @@ public class Duel implements Listener {
 		rate2.clear();
 		p1 = null;
 		p2 = null;
+		menu.remove();
 		menu = null;
 		
 		PlayerQuitEvent.getHandlerList().unregister(this);
@@ -232,8 +233,8 @@ public class Duel implements Listener {
 		
 		Bukkit.getPluginManager().callEvent(new DuelStopEvent(this, p.equals(p1) ? p2 : p1));
 		
-		win(p.equals(p1) ? p2 : p1);
 		p.getInfoDuel().lose();
+		win(p.equals(p1) ? p2 : p1);
 		
 		e.setCancelled(true);
 	}
@@ -245,10 +246,12 @@ public class Duel implements Listener {
 		if(!p.equals(p1) && !p.equals(p2)) return;
 		p.setSpec();
 		
+		start = false;
+		
 		Bukkit.getPluginManager().callEvent(new DuelStopEvent(this, p.equals(p1) ? p2 : p1));
 		
-		win(p.equals(p1) ? p2 : p1);
 		p.getInfoDuel().lose();
+		win(p.equals(p1) ? p2 : p1);
 		
 	}
 	

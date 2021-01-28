@@ -18,7 +18,7 @@ public class SelectProfileMenu extends Menu {
 	private Player p1, p2;
 	
 	public SelectProfileMenu(Duel duel) {
-		super(Main.getInstance().getLanguage("menus.duel.name"), 27);
+		super(Main.getInstance().getLanguage("menus.duel.name"), 27, false);
 		
 		this.duel = duel;
 		p1 = duel.getP1();

@@ -24,9 +24,11 @@ import ru.dseymo.customstevechaos.Main;
 public class Menu implements Listener {
 	
 	protected Inventory inv;
+	private boolean autoRemove;
 	
-	public Menu(String title, int size) {
+	public Menu(String title, int size, boolean autoRemove) {
 		inv = Bukkit.createInventory(null, size, title);
+		this.autoRemove = autoRemove;
 		
 		for(int i = 0; i < inv.getSize(); i++)
 			inv.setItem(i, ItemsUtil.generateItem(Material.STAINED_GLASS_PANE, (byte)15, " "));
@@ -47,7 +49,7 @@ public class Menu implements Listener {
 		
 	}
 	
-	public void open(Player p) {p.openInventory(inv);}
+	public void open(Player p) {p.closeInventory(); p.openInventory(inv);}
 	
 	
 	@EventHandler
@@ -77,10 +79,10 @@ public class Menu implements Listener {
 	@EventHandler
 	public void close(InventoryCloseEvent e) {
 		
-		if(inv.equals(e.getInventory()))
+		if(inv.equals(e.getInventory())) {
 			onClose((Player)e.getPlayer());
-		
-		if(inv.getViewers().size() == 0) remove();
+			if(autoRemove && inv.getViewers().size() == 0) remove();
+		}
 		
 	}
 	

@@ -36,6 +36,12 @@ public class Map {
 	private Duel duel;
 	
 	public Location getLobby() {return map.getLobby();}
-	public void reload() {loadMap(map, arenasConfig);}
+	public void reload() {
+		
+		map.load();
+		arenasConfig.load();
+		loadMap(map, arenasConfig);
+		
+	}
 	
 }

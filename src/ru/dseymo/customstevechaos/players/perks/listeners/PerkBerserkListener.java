@@ -34,6 +34,7 @@ public class PerkBerserkListener implements Listener {
 		if(p.getPerk() == null || p.getPerk() != Perk.BERSERK) return;
 		
 		double procent = _p.getHealth()/_p.getMaxHealth();
+		_p.setWalkSpeed(0.2f);
 		if(procent < 0.425) _p.setWalkSpeed(_p.getWalkSpeed() + (_p.getWalkSpeed()*0.1f));
 		else if(procent < 0.225) _p.setWalkSpeed(_p.getWalkSpeed() + (_p.getWalkSpeed()*0.15f));
 		else if(procent < 0.125) _p.setWalkSpeed(_p.getWalkSpeed() + (_p.getWalkSpeed()*0.2f));

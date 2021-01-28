@@ -16,8 +16,8 @@ public class DiamondSwordPower extends Item {
 	@Override
 	public void onCreate(ItemStack stack) {
 		
-		stack.addEnchantment(Enchantment.FIRE_ASPECT, 1);
-		stack.addEnchantment(Enchantment.KNOCKBACK, 1);
+		stack.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 1);
+		stack.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
 		
 	}
 
