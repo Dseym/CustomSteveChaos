@@ -12,7 +12,7 @@ public class MapExecute implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("customstevechaos")) {Chat.NO_PERM.send(sender); return true;}
+		if(!sender.hasPermission("customstevechaos.admin")) {Chat.NO_PERM.send(sender); return true;}
 		else if(!(sender instanceof Player)) return true;
 		Player p = (Player)sender;
 		
