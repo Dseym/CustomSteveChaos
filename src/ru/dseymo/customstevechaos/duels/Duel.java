@@ -1,15 +1,20 @@
 package ru.dseymo.customstevechaos.duels;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -22,7 +27,7 @@ import ru.dseymo.customstevechaos.events.PlayerEndWaveEvent;
 import ru.dseymo.customstevechaos.game.Game;
 import ru.dseymo.customstevechaos.map.Map;
 import ru.dseymo.customstevechaos.players.Player;
-import ru.dseymo.customstevechaos.utils.ChatUtil;
+import ru.dseymo.customstevechaos.utils.Chat;
 
 public class Duel implements Listener {
 	
@@ -37,6 +42,7 @@ public class Duel implements Listener {
 	private Location lP1, lP2;
 	@Getter
 	private SelectProfileMenu menu;
+	private BukkitTask timer;
 	
 	public Duel(Location lView, Location lP1, Location lP2) {
 		
@@ -47,21 +53,28 @@ public class Duel implements Listener {
 	}
 	
 	public boolean isCreate() {return menu != null;}
-	public void newDuel(Player p1, Player p2) {
-		if(isCreate()) return;
+	public void newDuel() {
+		if(Game.getInstance().getWave().getWave() < 1 || isCreate()) return;
 		
-		DuelCreateEvent event = new DuelCreateEvent(p1, p2);
+		ArrayList<Player> players = Game.getInstance().getNotSpecPlayers();
+		Collections.shuffle(players);
+		
+		DuelCreateEvent event = new DuelCreateEvent(players.get(0), players.get(1));
 		Bukkit.getPluginManager().callEvent(event);
 		if(event.isCancelled()) return;
 		
 		this.p1 = event.getP1();
 		this.p2 = event.getP2();
 		
-		menu = new SelectProfileMenu(this);
+		String[] info = Main.getInstance().getLanguageArray("messages.info.infoDuel");
+		for(int i = 0; i < info.length; i++)
+			info[i] = info[i].replace("%p1%", p1.getBP().getName()).replace("%p2%", p2.getBP().getName());
+		Chat.INFO.sendAll(info);
 		
-		TextComponent mainComponent = new TextComponent(ChatUtil.colorize(Main.getInstance().getLanguage("messages.info.clickToRate")));
+		menu = new SelectProfileMenu(this);
+		TextComponent mainComponent = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getLanguage("messages.info.clickToRate")));
 		mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/game duelProfiles"));
-		for(Player p: Game.getInstance().getNotSpecPlayers())
+		for(Player p: players)
 			p.getBP().spigot().sendMessage(mainComponent);
 		
 		Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
@@ -77,6 +90,7 @@ public class Duel implements Listener {
 		p2 = null;
 		menu.remove();
 		menu = null;
+		if(timer != null) timer.cancel();
 		
 		PlayerQuitEvent.getHandlerList().unregister(this);
 		EntityDamageEvent.getHandlerList().unregister(this);
@@ -92,10 +106,10 @@ public class Duel implements Listener {
 	
 	public void openMenu(Player p) {
 		if(start) {
-			ChatUtil.fail(p.getBP(), Main.getInstance().getLanguage("messages.fail.duelAlreadyStarted"));
+			Chat.FAIL.send(p.getBP(), Main.getInstance().getLanguage("messages.fail.duelAlreadyStarted"));
 			return;
 		} else if(!isCreate()) {
-			ChatUtil.fail(p.getBP(), Main.getInstance().getLanguage("messages.fail.duelNotFound"));
+			Chat.FAIL.send(p.getBP(), Main.getInstance().getLanguage("messages.fail.duelNotFound"));
 			return;
 		}
 		
@@ -116,6 +130,22 @@ public class Duel implements Listener {
 		
 		p1.getBP().teleport(lP1);
 		p2.getBP().teleport(lP2);
+		
+		timer = new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				
+				org.bukkit.entity.Player _p1 = p1.getBP();
+				org.bukkit.entity.Player _p2 = p2.getBP();
+				if(_p1.getHealth() == _p2.getHealth())
+					win(p1);
+				else
+					win(_p1.getHealth() > _p2.getHealth() ? p1 : p2);
+				
+			}
+			
+		}.runTaskLater(Main.getInstance(), 45*20);
 		
 	}
 	
@@ -151,11 +181,11 @@ public class Duel implements Listener {
 		if(start || !isCreate()) return;
 		
 		if(rate2.containsKey(p)) {
-			ChatUtil.fail(p.getBP(), Main.getInstance().getLanguage("messages.fail.alreadyRate"));
+			Chat.FAIL.send(p.getBP(), Main.getInstance().getLanguage("messages.fail.alreadyRate"));
 			return;
 		}
 		if(isMember(p)) {
-			ChatUtil.fail(p.getBP(), Main.getInstance().getLanguage("messages.fail.youMemberDuel"));
+			Chat.FAIL.send(p.getBP(), Main.getInstance().getLanguage("messages.fail.youMemberDuel"));
 			return;
 		}
 		
@@ -168,11 +198,11 @@ public class Duel implements Listener {
 		if(start || !isCreate()) return;
 		
 		if(rate1.containsKey(p)) {
-			ChatUtil.fail(p.getBP(), Main.getInstance().getLanguage("messages.fail.alreadyRate"));
+			Chat.FAIL.send(p.getBP(), Main.getInstance().getLanguage("messages.fail.alreadyRate"));
 			return;
 		}
 		if(isMember(p)) {
-			ChatUtil.fail(p.getBP(), Main.getInstance().getLanguage("messages.fail.youMemberDuel"));
+			Chat.FAIL.send(p.getBP(), Main.getInstance().getLanguage("messages.fail.youMemberDuel"));
 			return;
 		}
 		
@@ -184,6 +214,9 @@ public class Duel implements Listener {
 	public void win(Player p) {
 		if(!p.equals(p1) && !p.equals(p2)) return;
 		start = false;
+		Player lose = p.equals(p1) ? p2 : p1;
+		
+		Bukkit.getPluginManager().callEvent(new DuelStopEvent(this, p));
 		
 		if(p.equals(p1)) {
 			
@@ -204,19 +237,20 @@ public class Duel implements Listener {
 				set.getKey().deposit((int)(((double)set.getValue()) * k));
 			
 		}
+		lose.getInfoDuel().lose();
 		p.getInfoDuel().win();
-		
-		Player p1 = this.p1;
-		Player p2 = this.p2;
+		if(Game.getInstance().getWave().getWave() > 14)
+			lose.removeLive();
 		
 		remove();
 		int deposit = getBank() != 0 ? getBank()/(rate1.size()+rate2.size()) : 0;
-		PlayerEndWaveEvent event = new PlayerEndWaveEvent(p, Game.getInstance().getWave(), deposit, true);
+		PlayerEndWaveEvent event = new PlayerEndWaveEvent(p, Game.getInstance().getWave().getWave(), deposit, true);
 		Bukkit.getPluginManager().callEvent(event);
 		deposit = event.getDeposit();
 		p.deposit(deposit);
+		Chat.INFO.sendAll(Main.getInstance().getLanguage("messages.info.duelEnded").replace("%player%", p.getBP().getName()));
 		
-		Bukkit.getPluginManager().callEvent(new PlayerEndWaveEvent(p.equals(p1) ? p2 : p1, Game.getInstance().getWave(), 0, true));
+		Bukkit.getPluginManager().callEvent(new PlayerEndWaveEvent(lose, Game.getInstance().getWave().getWave(), 0, true));
 		
 	}
 	
@@ -229,11 +263,6 @@ public class Duel implements Listener {
 		ru.dseymo.customstevechaos.players.Player p = Game.getInstance().getPlayer(_p.getUniqueId());
 		if(!p.equals(p1) && !p.equals(p2)) return;
 		
-		start = false;
-		
-		Bukkit.getPluginManager().callEvent(new DuelStopEvent(this, p.equals(p1) ? p2 : p1));
-		
-		p.getInfoDuel().lose();
 		win(p.equals(p1) ? p2 : p1);
 		
 		e.setCancelled(true);
@@ -246,11 +275,6 @@ public class Duel implements Listener {
 		if(!p.equals(p1) && !p.equals(p2)) return;
 		p.setSpec();
 		
-		start = false;
-		
-		Bukkit.getPluginManager().callEvent(new DuelStopEvent(this, p.equals(p1) ? p2 : p1));
-		
-		p.getInfoDuel().lose();
 		win(p.equals(p1) ? p2 : p1);
 		
 	}

@@ -76,5 +76,12 @@ public class Main extends JavaPlugin {
 	
 	public String getLanguage(String path) {return language.getString(path);}
 	public ArrayList<String> getLanguageList(String path) {return language.getStringList(path);}
+	public String[] getLanguageArray(String path) {
+		ArrayList<String> arrList = Main.getInstance().getLanguageList(path);
+		String[] array = new String[arrList.size()];
+		for(int i = 0; i < array.length; i++)
+			array[i] = arrList.get(i);
+		return array;
+	}
 	
 }

@@ -5,10 +5,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
-import ru.dseymo.customstevechaos.utils.ChatUtil;
+import ru.dseymo.customstevechaos.utils.Chat;
 
 public class JoinListener implements Listener {
 	
@@ -16,8 +16,10 @@ public class JoinListener implements Listener {
 	private void join(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 		
-		ChatUtil.info(p, "&9Hi, this is the plugin creator, &lDseymo&9!",
-						 "It might be interesting &bhttps://www.youtube.com/c/Dseymo");
+		Chat.INFO.send(p, "",
+						  "&9Hi, this is the plugin creator, &lDseymo&9!",
+						  "It might be interesting &b&nhttps://www.youtube.com/c/Dseymo",
+						  "");
 		
 		p.setGameMode(GameMode.ADVENTURE);
 		p.getInventory().clear();
@@ -27,12 +29,10 @@ public class JoinListener implements Listener {
 		p.setFoodLevel(20);
 		p.setExp(0);
 		p.setWalkSpeed(0.2f);
+		p.setLevel(0);
+		for(PotionEffect eff: p.getActivePotionEffects())
+			p.removePotionEffect(eff.getType());
 		
-	}
-	
-	@EventHandler
-	private void quit(PlayerQuitEvent e) {
-		e.setQuitMessage("");
 	}
 	
 }

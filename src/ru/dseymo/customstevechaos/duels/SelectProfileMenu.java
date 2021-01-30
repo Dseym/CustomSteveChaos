@@ -1,7 +1,5 @@
 package ru.dseymo.customstevechaos.duels;
 
-import java.util.ArrayList;
-
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
@@ -9,6 +7,7 @@ import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.game.Game;
 import ru.dseymo.customstevechaos.players.Player;
 import ru.dseymo.customstevechaos.players.ProfileMenu;
+import ru.dseymo.customstevechaos.utils.Chat;
 import ru.dseymo.customstevechaos.utils.ItemsUtil;
 import ru.dseymo.customstevechaos.utils.Menu;
 
@@ -24,10 +23,7 @@ public class SelectProfileMenu extends Menu {
 		p1 = duel.getP1();
 		p2 = duel.getP2();
 		
-		ArrayList<String> loreStr = Main.getInstance().getLanguageList("menus.duel.loreFormat");
-		String[] format = new String[loreStr.size()];
-		for(int i = 0; i < format.length; i++)
-			format[i] = loreStr.get(i);
+		String[] format = Main.getInstance().getLanguageArray("menus.duel.loreFormat");
 		
 		String[] lore = format.clone();
 		for(int i = 0; i < lore.length; i++)
@@ -52,6 +48,10 @@ public class SelectProfileMenu extends Menu {
 		else return true;
 		
 		if(click.isLeftClick()) {
+			if(duel.isMember(p)) {
+				Chat.FAIL.send(_p, Main.getInstance().getLanguage("messages.fail.youMemberDuel"));
+				return true;
+			}
 			
 			RatesMenu menu = new RatesMenu(duel, Game.getInstance().getPlayer(_p.getUniqueId()), p, this);
 			menu.open(_p);

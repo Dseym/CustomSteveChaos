@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import ru.dseymo.customstevechaos.Main;
-import ru.dseymo.customstevechaos.utils.ChatUtil;
+import ru.dseymo.customstevechaos.utils.Chat;
 import ru.dseymo.customstevechaos.utils.Menu;
 
 public class SelectItemMenu extends Menu {
@@ -44,7 +44,7 @@ public class SelectItemMenu extends Menu {
 		if(item != null) {
 			
 			_p.getInventory().addItem(item);
-			ChatUtil.success(_p, Main.getInstance().getLanguage("messages.success.itemSelected"));
+			Chat.SUCCESS.send(_p, Main.getInstance().getLanguage("messages.success.itemSelected"));
 			selected = true;
 			
 			_p.closeInventory();
@@ -59,7 +59,7 @@ public class SelectItemMenu extends Menu {
 		
 		ItemStack item = (ItemStack)items.values().toArray()[new Random().nextInt(items.size())];
 		p.getInventory().addItem(item);
-		ChatUtil.success(p, Main.getInstance().getLanguage("messages.success.itemSelected"));
+		Chat.SUCCESS.send(p, Main.getInstance().getLanguage("messages.success.itemSelected"));
 		
 	}
 

@@ -3,13 +3,13 @@ package ru.dseymo.customstevechaos.items.items;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-public class GoldSword extends Item {
+public class SwordSuperPower extends Item {
 	
-	public static GoldSword item = new GoldSword();
+	public static SwordSuperPower item = new SwordSuperPower();
 	
 
-	protected GoldSword() {
-		super("goldsword");
+	protected SwordSuperPower() {
+		super("sword_super_power");
 	}
 	
 	

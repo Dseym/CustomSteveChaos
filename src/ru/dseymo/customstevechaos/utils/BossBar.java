@@ -60,6 +60,7 @@ public class BossBar implements Listener {
     		
     	}
     	
+    	bars.remove(this);
     }
  
     public void addPlayer(Player p) {

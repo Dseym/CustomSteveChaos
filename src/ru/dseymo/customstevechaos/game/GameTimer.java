@@ -8,7 +8,7 @@ import ru.dseymo.customstevechaos.duels.Duel;
 import ru.dseymo.customstevechaos.map.Map;
 import ru.dseymo.customstevechaos.players.Player;
 import ru.dseymo.customstevechaos.utils.BossBar;
-import ru.dseymo.customstevechaos.utils.ChatUtil;
+import ru.dseymo.customstevechaos.utils.Chat;
 
 public class GameTimer extends BukkitRunnable {
 	
@@ -45,6 +45,8 @@ public class GameTimer extends BukkitRunnable {
 					checkWin();
 					
 				}
+			if(boostTime != 40)
+				Chat.FAIL.sendAll(Main.getInstance().getLanguage("messages.fail.mobsBoost"));
 		}
 		
 	}
@@ -64,10 +66,12 @@ public class GameTimer extends BukkitRunnable {
 	}
 
 	private void checkWin() {
-		if(!Game.getInstance().isStart() || game.getNotSpecPlayers().size() != 1) return;
+		if(!game.isStart()) return;
+		if(game.getNotSpecPlayers().size() < 1) game.stop();
+		if(game.getNotSpecPlayers().size() != 1) return;
 		
 		for(Player p: game.getPlayers())
-			ChatUtil.info(p.getBP(), Main.getInstance().getLanguage("messages.info.playerWin").replace("%player%", game.getNotSpecPlayers().get(0).getBP().getName()));
+			Chat.INFO.send(p.getBP(), Main.getInstance().getLanguage("messages.info.playerWin").replace("%player%", game.getNotSpecPlayers().get(0).getBP().getName()));
 		
 		game.stop();
 		
@@ -75,14 +79,15 @@ public class GameTimer extends BukkitRunnable {
 
 	private int timeToWave = 30;
 	private void autoWave() {
-		if(!game.isStart() || game.getStatus() != Status.WAITING_WAVE) {
+		if(game.getStatus() != Status.WAITING_WAVE) {
 			timeToWave = 30;
 			return;
 		}
 		
 		if(--timeToWave < 1) {
 			
-			game.nextWave();
+			timeToWave = 30;
+			game.getWave().start();
 			new BukkitRunnable() {
 				
 				@Override
@@ -92,7 +97,7 @@ public class GameTimer extends BukkitRunnable {
 			
 		} else {
 			
-			bar.setTitle(Main.getInstance().getLanguage("bossbar.waitingWave").replace("%wave%", (game.getWave()+1) + ""));
+			bar.setTitle(Main.getInstance().getLanguage("bossbar.waitingWave").replace("%wave%", (game.getWave().getWave()) + "").replace("%nameWave%", game.getWave().getPack().getName()));
 			bar.setProgress(((double)timeToWave)/30.0);
 			
 		}
@@ -110,8 +115,9 @@ public class GameTimer extends BukkitRunnable {
 			timeToStart = 60;
 			return;
 		}
+		if(game.getNotSpecPlayers().size() == Map.getInstance().getArenas().size() && timeToStart > 10) timeToStart = 10;
 		
-		if(--timeToStart < 1) game.start();
+		if(--timeToStart < 1) {timeToStart = 60; game.start();}
 		else {
 			
 			bar.setTitle(Main.getInstance().getLanguage("bossbar.waitingGame"));

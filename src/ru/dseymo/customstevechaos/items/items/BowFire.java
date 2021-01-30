@@ -9,7 +9,7 @@ public class BowFire extends Item {
 	
 	
 	protected BowFire() {
-		super("bowfire");
+		super("bow_fire");
 	}
 	
 	@Override

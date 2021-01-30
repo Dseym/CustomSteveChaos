@@ -20,6 +20,7 @@ public class PerkAlchemistListener implements Listener {
 		if(p.getPerk() == null || p.getPerk() != Perk.ALCHEMIST || item.getType() != Material.POTION) return;
 		
 		Potion potion = Potion.fromItemStack(item);
+		try {potion.setLevel(potion.getLevel()+1);} catch (Exception e2) {return;}
 		potion.setLevel(potion.getLevel()+1);
 		potion.apply(item);
 		e.setItem(item);

@@ -1,7 +1,5 @@
 package ru.dseymo.customstevechaos.players.perks;
 
-import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.Listener;
@@ -28,7 +26,7 @@ public enum Perk {
 	BERSERK(Material.IRON_AXE, "perks.berserk.name", "perks.berserk.lore", new PerkBerserkListener()),
 	SWORDMAN(Material.IRON_SWORD, "perks.swordman.name", "perks.swordman.lore", new PerkSwordmanListener()),
 	ARCHER(Material.BOW, "perks.archer.name", "perks.archer.lore", new PerkArcherListener()),
-	LUCKY(Material.ANVIL, "perks.lucky.name", "perks.lucky.lore", new PerkLuckyListener()),
+	LUCKY(Material.GOLD_INGOT, "perks.lucky.name", "perks.lucky.lore", new PerkLuckyListener()),
 	GLADIATOR(Material.WOOD_SWORD, "perks.gladiator.name", "perks.gladiator.lore", new PerkGladiatorListener()),
 	ALCHEMIST(Material.POTION, "perks.alchemist.name", "perks.alchemist.lore", new PerkAlchemistListener()),
 	TITAN(Material.IRON_BLOCK, "perks.titan.name", "perks.titan.lore", new PerkTitanListener()),
@@ -44,10 +42,7 @@ public enum Perk {
 	private Perk(Material mat, String pathName, String pathDescription, Listener listener) {
 		
 		name = Main.getInstance().getLanguage(pathName);
-		ArrayList<String> descr = Main.getInstance().getLanguageList(pathDescription);
-		description = new String[descr.size()];
-		for(int i = 0; i < description.length; i++)
-			description[i] = descr.get(i);
+		description = Main.getInstance().getLanguageArray(pathDescription);
 		item = ItemsUtil.generateItem(mat, name, description);
 		
 		Bukkit.getPluginManager().registerEvents(listener, Main.getInstance());

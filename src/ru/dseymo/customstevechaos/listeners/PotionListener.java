@@ -10,7 +10,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.events.PlayerEndWaveEvent;
 
 public class PotionListener implements Listener {
@@ -28,7 +30,7 @@ public class PotionListener implements Listener {
 		
 		potions.put(e.getPlayer().getUniqueId(), items);
 		
-		p.getInventory().setItemInHand(null);
+		new BukkitRunnable() {@Override public void run() {p.getInventory().remove(Material.GLASS_BOTTLE);}}.runTaskLater(Main.getInstance(), 2);
 		
 	}
 	

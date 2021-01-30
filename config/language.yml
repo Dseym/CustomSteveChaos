@@ -1,3 +1,5 @@
+prefix: "&8[&9&lCSC&8] "
+
 messages:
   fail:
      alreadyRate: "Ты уже голосовал"
@@ -13,6 +15,7 @@ messages:
      duelAlreadyStarted: "Дуэль уже началась"
      duelNotFound: "Сейчас нету дуэли"
      notEnoughMoney: "Не хватает монет"
+     mobsBoost: "Мобы стали сильнее"
   success:
      arenaCreated: "Арена успешно создана"
      locChanged: "Локация успешно изменена"
@@ -22,6 +25,8 @@ messages:
      successStarted: "Игра успешно началась"
      successStopped: "Игра успешно закончилась"
      mapReloaded: "Конфиг карты успешно перезагружен"
+     waveEnded: "Волна закончилась"
+     arenaRemove: "Арена успешно удалена"
   info:
      playerWin: "%player% победил в игре"
      deposit: "+%money% монет"
@@ -34,6 +39,11 @@ messages:
      withdraw: "-%money% монет"
      playerLose: "Игрок %player% выбыл из игры"
      playerLostLive: "Игрок %player% потерял жизнь, осталось %lives%"
+     playerWinWave: "Игрок %player% завершил волну"
+     duelEnded: "Дуэль закончилась, победил %player%"
+     waveStarted:
+     - "Волна %wave% началась"
+     - "Монстры появятся через 5 секунд"
      helpGame:
      - "&3Команды:"
      - "/game start - &eначать игру"
@@ -45,6 +55,8 @@ messages:
      - "&3Команды:"
      - "/map setlobby - &eустановить лобби"
      - "/map arena create <name> - &eсоздать арену"
+     - "/map arena remove <name> - &eудалить арену"
+     - "/map arena list - &eсписок всех арен"
      - "/map arena setspawn <name> - &eустановить спавн игроку"
      - "/map arena setspawnmob - &eустановить спавн мобам"
      - "/map duel setp1 - &eустановить спавн 1-му игроку"
@@ -52,11 +64,14 @@ messages:
      - "/map duel setview - &eустановить спавн зрителей"
      - "/map reload - &eперезагрузка конфига"
      - "/map help - &eэта команда"
+     infoDuel:
+     - "            Дуэль:"
+     - "%p1% &lПРОТИВ&7 %p2%"
 
 bossbar:
    waitingPlayers: "Ожидание игроков. Осталось %players%"
    waitingGame: "Ожидание начала игры"
-   waitingWave: "До начала %wave% волны"
+   waitingWave: "До начала %wave% волны %nameWave%"
    timerToDeath: "До смерти всех кто не убил мобов"
    timerToBoost: "Время до усиления мобов"
 
@@ -137,13 +152,29 @@ scoreboard:
    lines:
    - " "
    - " Баланс:"
-   - " %money%"
+   - "  %money%"
+   - "     "
+   - " Перк:"
+   - "  %perk%"
    - "  "
    - " Волна:"
-   - " %wave%"
+   - "  %wave%"
    - "   "
    - " Игроков:"
-   - " %players%"
+   - "  %players%"
    - "    "
-   
+
+packs:
+   zombie: "Зомби"
+   zombieArmor: "Укрепленные зомби"
+   skeletons: "Скелеты"
+   blazes: "Блейзы"
+   spiders: "Пауки"
+   endermites: "Эндермиты"
+   mix1: "Микс"
+   mix2: "Микс"
+   miniBoss: "Мини босс"
+   caveSpiders: "Пещерные пауки"
+   silverfishes: "Чешуйницы"
+   pigZombies: "Свинозомби"
 

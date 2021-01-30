@@ -14,7 +14,8 @@ import ru.dseymo.customstevechaos.arenas.mobs.ZombieArmor;
 public enum Mobs {
 	
 	ZOMBIE(EntityType.ZOMBIE), SKELETON(EntityType.SKELETON), SPIDER(EntityType.SPIDER), BLAZE(EntityType.BLAZE),
-	IRON_GOLEM(EntityType.IRON_GOLEM), ENDERMITE(EntityType.ENDERMITE), ZOMBIE_ARMOR(EntityType.ZOMBIE);
+	IRON_GOLEM(EntityType.IRON_GOLEM), ENDERMITE(EntityType.ENDERMITE), ZOMBIE_ARMOR(EntityType.ZOMBIE),
+	SILVERFISH(EntityType.SILVERFISH), CAVE_SPIDER(EntityType.CAVE_SPIDER), PIG_ZOMBIE(EntityType.PIG_ZOMBIE);
 	
 	private EntityType type;
 	
@@ -29,8 +30,8 @@ public enum Mobs {
 			case SPIDER: return Spider.mob.spawn(type, loc);
 			case ZOMBIE: return Zombie.mob.spawn(type, loc);
 			case SKELETON: return Skeleton.mob.spawn(type, loc);
+			
 			default: return (LivingEntity)loc.getWorld().spawnEntity(loc, type);
-				
 		}
 		
 	}

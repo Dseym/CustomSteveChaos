@@ -1,7 +1,5 @@
 package ru.dseymo.customstevechaos.game;
 
-import java.util.ArrayList;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,7 +8,7 @@ import org.bukkit.entity.Player;
 import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.items.upgrade.UpgradeMenu;
 import ru.dseymo.customstevechaos.map.Map;
-import ru.dseymo.customstevechaos.utils.ChatUtil;
+import ru.dseymo.customstevechaos.utils.Chat;
 
 public class GameExecute implements CommandExecutor {
 	
@@ -35,12 +33,7 @@ public class GameExecute implements CommandExecutor {
 
 	private void help(CommandSender sender) {
 		
-		ArrayList<String> strs = Main.getInstance().getLanguageList("messages.info.helpGame");
-		String[] str = new String[strs.size()];
-		for(int i = 0; i < str.length; i++)
-			str[i] = strs.get(i);
-		
-		ChatUtil.info(sender, str);
+		Chat.INFO.send(sender, Main.getInstance().getLanguageArray("messages.info.helpGame"));
 		
 	}
 
@@ -60,25 +53,25 @@ public class GameExecute implements CommandExecutor {
 		if(!sender.hasPermission("customstevechaos.admin")) {
 			
 			Game.getInstance().stop();
-			ChatUtil.success(sender, Main.getInstance().getLanguage("messages.success.successStopped"));
+			Chat.SUCCESS.send(sender, Main.getInstance().getLanguage("messages.success.successStopped"));
 			
-		} else ChatUtil.noPerm(sender);
+		} else Chat.NO_PERM.send(sender);
 	}
 	
 	private void start(CommandSender sender) {
 		if(!sender.hasPermission("customstevechaos.admin")) {
 			if(Game.getInstance().getStatus() != Status.WAITING_GAME) {
-				ChatUtil.fail(sender, Main.getInstance().getLanguage("messages.fail.alreadyStarted"));
+				Chat.FAIL.send(sender, Main.getInstance().getLanguage("messages.fail.alreadyStarted"));
 				return;
 			} else if(Game.getInstance().getNotSpecPlayers().size() < Main.getInstance().getMinPlayers()) {
-				ChatUtil.fail(sender, Main.getInstance().getLanguage("messages.fail.notEnoughPlayers"));
+				Chat.FAIL.send(sender, Main.getInstance().getLanguage("messages.fail.notEnoughPlayers"));
 				return;
 			}
 			
 			Game.getInstance().start();
-			ChatUtil.success(sender, Main.getInstance().getLanguage("messages.success.successStarted"));
+			Chat.SUCCESS.send(sender, Main.getInstance().getLanguage("messages.success.successStarted"));
 
-		} else ChatUtil.noPerm(sender);
+		} else Chat.NO_PERM.send(sender);
 	}
 	
 }

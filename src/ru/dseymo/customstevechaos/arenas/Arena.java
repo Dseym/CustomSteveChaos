@@ -48,10 +48,10 @@ public class Arena implements Listener {
 	public void spawnMobs(PackMobs pack) {
 		if(!isDone()) return;
 		
-		int wave = Game.getInstance().getWave();
+		int wave = Game.getInstance().getWave().getWave();
 		boost = 0;
 		spawning = true;
-		spawn.getWorld().setDifficulty(Difficulty.HARD);
+		spawn.getWorld().setDifficulty(Difficulty.EASY);
 		spawn.getWorld().setSpawnFlags(false, false);
 		for(LivingEntity ent: spawn.getWorld().getLivingEntities())
 			if(!Arrays.asList(EntityType.ARMOR_STAND, EntityType.PLAYER).contains(ent.getType()))
@@ -64,7 +64,7 @@ public class Arena implements Listener {
 				
 				for(LivingEntity ent: pack.spawn(spawnMob)) {
 					
-					ent.setMaxHealth(wave*3);
+					ent.setMaxHealth(wave*2);
 					ent.setHealth(ent.getMaxHealth());
 					mobs.add(ent);
 					
@@ -96,7 +96,7 @@ public class Arena implements Listener {
 			for(int i = 0; i < pl.getLives(); i++)
 				pl.removeLive();
 			
-			PlayerEndWaveEvent event = new PlayerEndWaveEvent(pl, Game.getInstance().getWave(), 0, false);
+			PlayerEndWaveEvent event = new PlayerEndWaveEvent(pl, Game.getInstance().getWave().getWave(), 0, false);
 			Bukkit.getPluginManager().callEvent(event);
 			
 			stop();
@@ -134,8 +134,8 @@ public class Arena implements Listener {
 			Duel duel = Map.getInstance().getDuel();
 			pl.getBP().teleport(duel.isStart() ? duel.getLView() : Map.getInstance().getLobby());
 			
-			int deposit = Game.getInstance().getWave()*50 + 150;
-			PlayerEndWaveEvent event = new PlayerEndWaveEvent(pl, Game.getInstance().getWave(), deposit, false);
+			int deposit = Game.getInstance().getWave().getWave()*50 + 150;
+			PlayerEndWaveEvent event = new PlayerEndWaveEvent(pl, Game.getInstance().getWave().getWave(), deposit, false);
 			Bukkit.getPluginManager().callEvent(event);
 			deposit = event.getDeposit();
 			pl.deposit(deposit);
@@ -159,7 +159,7 @@ public class Arena implements Listener {
 			
 		} else {
 			
-			PlayerEndWaveEvent event = new PlayerEndWaveEvent(p, Game.getInstance().getWave(), 0, false);
+			PlayerEndWaveEvent event = new PlayerEndWaveEvent(p, Game.getInstance().getWave().getWave(), 0, false);
 			Bukkit.getPluginManager().callEvent(event);
 			
 		}

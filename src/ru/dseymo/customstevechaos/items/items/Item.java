@@ -44,7 +44,7 @@ public class Item implements Listener {
 		return stack;
 	}
 	
-	public boolean isItem(ItemStack stack) {return stack == null ? false : ItemsUtil.getTag(stack, "id").equals(id);}
+	public boolean isItem(ItemStack stack) {return stack == null || stack.getType() == Material.AIR ? false : ItemsUtil.getTag(stack, "id").equals(id);}
 	
 	@EventHandler
 	public void interact(PlayerInteractEvent e) {

@@ -15,6 +15,7 @@ public class PerkTitanListener implements Listener {
 		Player p = e.getPlayer();
 		
 		p.getBP().setMaxHealth(p.getBP().getMaxHealth() + 8);
+		p.getBP().setHealth(p.getBP().getMaxHealth());
 		
 	}
 	

@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.events.PerkSelectEvent;
 import ru.dseymo.customstevechaos.game.Game;
-import ru.dseymo.customstevechaos.utils.ChatUtil;
+import ru.dseymo.customstevechaos.utils.Chat;
 import ru.dseymo.customstevechaos.utils.Menu;
 
 public class SelectPerkMenu extends Menu {
@@ -36,40 +36,32 @@ public class SelectPerkMenu extends Menu {
 		
 	}
 	
-	
-	private boolean selected = false;
-	@Override
-	public boolean onClick(Player _p, ItemStack item, int slot, ClickType click) {
+	private void selectPerk(Player _p, Perk perk) {
 		
-		Perk perk = perks.get(slot);
 		if(perk != null) {
 			
 			ru.dseymo.customstevechaos.players.Player p = Game.getInstance().getPlayer(_p.getUniqueId());
+			if(p.getPerk() != null) return;
 			PerkSelectEvent event = new PerkSelectEvent(perk, p);
 			Bukkit.getPluginManager().callEvent(event);
 			p.setPerk(event.getPerk());
 			
-			ChatUtil.success(_p, Main.getInstance().getLanguage("messages.success.perkSelected").replace("%perk%", perk.getName()));
-			selected = true;
+			Chat.SUCCESS.send(_p, Main.getInstance().getLanguage("messages.success.perkSelected").replace("%perk%", perk.getName()));
 			
 			_p.closeInventory();
 		}
+		
+	}
+	
+	
+	@Override
+	public boolean onClick(Player _p, ItemStack item, int slot, ClickType click) {
+		selectPerk(_p, perks.get(slot));
 		
 		return true;
 	}
 	
 	@Override
-	public void onClose(Player _p) {
-		if(selected) return;
-		
-		Perk perk = (Perk)perks.values().toArray()[new Random().nextInt(perks.size())];
-		ru.dseymo.customstevechaos.players.Player p = Game.getInstance().getPlayer(_p.getUniqueId());
-		PerkSelectEvent event = new PerkSelectEvent(perk, p);
-		Bukkit.getPluginManager().callEvent(event);
-		p.setPerk(event.getPerk());
-		
-		ChatUtil.success(_p, Main.getInstance().getLanguage("messages.success.perkSelected").replace("%perk%", perk.getName()));
-		
-	}
+	public void onClose(Player _p) {selectPerk(_p, (Perk)perks.values().toArray()[new Random().nextInt(perks.size())]);}
 	
 }

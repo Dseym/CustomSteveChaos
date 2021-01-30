@@ -22,6 +22,13 @@ public class ArenasConfig extends Config {
 		
 	}
 	
+	public void remove(String name) {
+		
+		set(name, null);
+		save();
+		
+	}
+	
 	public void setSpawn(String name, Location spawn) {
 		
 		set(name + ".spawn", LocationUtil.toString(spawn, true));

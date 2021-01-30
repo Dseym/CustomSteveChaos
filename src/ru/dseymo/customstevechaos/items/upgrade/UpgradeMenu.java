@@ -1,5 +1,8 @@
 package ru.dseymo.customstevechaos.items.upgrade;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -7,37 +10,42 @@ import org.bukkit.inventory.ItemStack;
 import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.game.Game;
 import ru.dseymo.customstevechaos.players.Player;
-import ru.dseymo.customstevechaos.utils.ChatUtil;
+import ru.dseymo.customstevechaos.utils.Chat;
 import ru.dseymo.customstevechaos.utils.ItemsUtil;
 import ru.dseymo.customstevechaos.utils.Menu;
 
 public class UpgradeMenu extends Menu {
 	
 	public static ItemStack upgrade(ItemStack stack) {
-		Enchantment ench = getEnch(stack);
-		if(ench == null) return null;
+		ArrayList<Enchantment> enchs = getEnchs(stack);
+		if(enchs.size() == 0) return null;
 		
-		stack.addUnsafeEnchantment(ench, stack.containsEnchantment(ench) ? stack.getEnchantmentLevel(ench)+1 : 1);
+		for(Enchantment ench: enchs)
+			stack.addUnsafeEnchantment(ench, stack.containsEnchantment(ench) ? stack.getEnchantmentLevel(ench)+1 : 1);
 		
 		return stack;
 	}
 	
 	public static int getCost(ItemStack stack) {
-		Enchantment ench = getEnch(stack);
-		if(ench == null) return -1;
+		ArrayList<Enchantment> enchs = getEnchs(stack);
+		if(enchs.size() == 0) return -1;
 		
-		return stack.getEnchantmentLevel(ench)*300+200;
+		return (stack.getEnchantmentLevel(enchs.get(0))*300)+(200*enchs.size());
 	}
 	
-	private static Enchantment getEnch(ItemStack stack) {
+	private static ArrayList<Enchantment> getEnchs(ItemStack stack) {
+		ArrayList<Enchantment> enchs = new ArrayList<>();
 		
 		String strType = stack.getType().toString();
-		if(contains(strType, "SWORD")) return Enchantment.DAMAGE_ALL;
+		if(contains(strType, "SWORD")) enchs.add(Enchantment.DAMAGE_ALL);
 		else if(contains(strType, "HELMET", "CHESTPLATE", "LEGGINGS", "BOOTS"))
-			return Enchantment.PROTECTION_ENVIRONMENTAL;
-		else if(contains(strType, "BOW")) return Enchantment.ARROW_DAMAGE;
-		else return null;
+			enchs.add(Enchantment.PROTECTION_ENVIRONMENTAL);
+		else if(contains(strType, "BOW")) enchs.add(Enchantment.ARROW_DAMAGE);
 		
+		for(Enchantment ench: Arrays.asList(Enchantment.THORNS))
+			if(stack.containsEnchantment(ench)) enchs.add(ench);
+		
+		return enchs;
 	}
 	
 	private static boolean contains(String str, String... strs) {
@@ -63,7 +71,7 @@ public class UpgradeMenu extends Menu {
 			if(p.withdraw(cost)) {
 				
 				_p.getInventory().addItem(upgrade(stack));
-				ChatUtil.success(_p, Main.getInstance().getLanguage("messages.success.itemUpgraded"));
+				Chat.SUCCESS.send(_p, Main.getInstance().getLanguage("messages.success.itemUpgraded"));
 				buy = true;
 				
 			}
@@ -81,14 +89,14 @@ public class UpgradeMenu extends Menu {
 		p.getInventory().setItemInHand(null);
 		if(stack == null) {
 			
-			ChatUtil.fail(p, Main.getInstance().getLanguage("messages.fail.selectItem"));
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.selectItem"));
 			return true;
 			
 		}
 		upgradeStack = upgrade(stack.clone());
 		if(upgradeStack == null) {
 			
-			ChatUtil.fail(p, Main.getInstance().getLanguage("messages.fail.itemCannotUpgrade"));
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.itemCannotUpgrade"));
 			return true;
 			
 		}

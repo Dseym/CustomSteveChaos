@@ -9,10 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.arenas.Arena;
-import ru.dseymo.customstevechaos.game.Game;
 import ru.dseymo.customstevechaos.players.perks.Perk;
 import ru.dseymo.customstevechaos.utils.Board;
-import ru.dseymo.customstevechaos.utils.ChatUtil;
+import ru.dseymo.customstevechaos.utils.Chat;
 
 @Getter
 public class Player {
@@ -44,8 +43,16 @@ public class Player {
 			arena = null;
 		
 		}
-		board.remove();
+		removeBoard();
+		
+	}
+	
+	public void removeBoard() {
+		if(board == null) return;
+		
+		Board _board = board;
 		board = null;
+		_board.remove();
 		
 	}
 	
@@ -58,30 +65,28 @@ public class Player {
 		if(money < 1) return true;
 		if(isMoney(money)) {
 			this.money -= money;
-			ChatUtil.info(getBP(), Main.getInstance().getLanguage("messages.info.withdraw").replace("%money%", money + ""));
+			Chat.INFO.send(getBP(), Main.getInstance().getLanguage("messages.info.withdraw").replace("%money%", money + ""));
 			return true;
 		}
-		else {ChatUtil.fail(getBP(), Main.getInstance().getLanguage("messages.fail.notEnoughMoney")); return false;}
+		else {Chat.INFO.send(getBP(), Main.getInstance().getLanguage("messages.fail.notEnoughMoney")); return false;}
 	}
 	public void deposit(int money) {
 		if(money < 1) return;
 		
 		this.money += money;
-		ChatUtil.info(getBP(), Main.getInstance().getLanguage("messages.info.deposit").replace("%money%", money + ""));
+		Chat.INFO.send(getBP(), Main.getInstance().getLanguage("messages.info.deposit").replace("%money%", money + ""));
 		
 	}
 	
 	public boolean removeLive() {
+		if(lives < 1 || isSpec()) return true;
 		
 		if(--lives < 1) {
 			
 			setSpec();
-			for(Player p: Game.getInstance().getPlayers())
-				ChatUtil.info(p.getBP(), Main.getInstance().getLanguage("messages.info.playerLose").replace("%player%", getBP().getName()));
+			Chat.INFO.sendAll(Main.getInstance().getLanguage("messages.info.playerLose").replace("%player%", getBP().getName()));
 			
-		} else
-			for(Player p: Game.getInstance().getPlayers())
-				ChatUtil.info(p.getBP(), Main.getInstance().getLanguage("messages.info.playerLostLive").replace("%player%", getBP().getName()).replace("%lives%", lives + ""));
+		} else Chat.INFO.sendAll(Main.getInstance().getLanguage("messages.info.playerLostLive").replace("%player%", getBP().getName()).replace("%lives%", lives + ""));
 		
 		return lives < 1;
 	}

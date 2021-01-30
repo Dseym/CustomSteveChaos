@@ -1,7 +1,5 @@
 package ru.dseymo.customstevechaos.utils;
 
-import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -9,16 +7,19 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
+import lombok.Getter;
 import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.game.Game;
 import ru.dseymo.customstevechaos.players.Player;
+import ru.dseymo.customstevechaos.players.perks.Perk;
 
 public class Board {
 	
+	@Getter
 	private Scoreboard board;
 	private Player player;
 	private String title;
-	BukkitTask task;
+	private BukkitTask task;
 	
 	public Board(Player p, String title) {
 		
@@ -28,7 +29,6 @@ public class Board {
 		Objective obj = board.registerNewObjective(title, "dummy");
 		obj.setDisplayName(title);
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		
 		p.getBP().setScoreboard(board);
 		
 		task = new BukkitRunnable() {
@@ -46,6 +46,7 @@ public class Board {
 		for(String str: board.getEntries())
 			board.resetScores(str);
 		
+		player.removeBoard();
 		player = null;
 		
 	}
@@ -64,13 +65,19 @@ public class Board {
 		for(String str: board.getEntries())
 			board.resetScores(str);
 		
-		ArrayList<String> linesList = Main.getInstance().getLanguageList("scoreboard.lines");
-		String[] lines = new String[linesList.size()];
-		for(int i = 0; i < lines.length; i++)
-			lines[i] = linesList.get(i).replace("%money%", " " + player.getMoney()).replace("%wave%", " " + Game.getInstance().getWave()).replace("%players%", " " + Game.getInstance().getNotSpecPlayers().size());
+		String[] lines = Main.getInstance().getLanguageArray("scoreboard.lines");
+		for(int i = 0; i < lines.length; i++) {
+			
+			Perk perk = player.getPerk();
+			
+			lines[i] = lines[i].replace("%money%", "" + player.getMoney());
+			lines[i] = lines[i].replace("%wave%", "" + Game.getInstance().getWave().getWave());
+			lines[i] = lines[i].replace("%players%", "" + Game.getInstance().getNotSpecPlayers().size());
+			lines[i] = lines[i].replace("%perk%", "" + (perk == null ? "" : perk.getName()));
+			
+		}
 		
 		addLines(lines);
-		
 	}
 	
 }
