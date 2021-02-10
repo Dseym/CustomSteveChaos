@@ -12,9 +12,9 @@ import lombok.Getter;
 import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.arenas.Arena;
 import ru.dseymo.customstevechaos.arenas.PackMobs;
+import ru.dseymo.customstevechaos.duels.Duel;
 import ru.dseymo.customstevechaos.events.PlayerEndWaveEvent;
 import ru.dseymo.customstevechaos.events.WaveStartEvent;
-import ru.dseymo.customstevechaos.map.Map;
 import ru.dseymo.customstevechaos.players.Player;
 import ru.dseymo.customstevechaos.utils.Chat;
 
@@ -36,12 +36,12 @@ public class Wave implements Listener {
 			@Override
 			public void run() {
 				
-				if(game.getStatus() != Status.WAVE || game.getNotSpecPlayers().size() < 2 || Map.getInstance().getDuel().isCreate()) return;
+				if(game.getStatus() != Status.WAVE || game.getNotSpecPlayers().size() < 2 || Duel.getInstance().isCreate()) return;
 				for(Player p: game.getNotSpecPlayers())
 					if(!p.getArena().isDone())
 						return;
 				
-				Map.getInstance().getDuel().newDuel();
+				Duel.getInstance().newDuel();
 				game.giveItem();
 				nextWave();
 				Chat.SUCCESS.sendAll(Main.getInstance().getLanguage("messages.success.waveEnded"));
@@ -75,7 +75,7 @@ public class Wave implements Listener {
 		if(event.isCancelled()) return;
 		
 		for(Player p: game.getNotSpecPlayers()) {
-			if(Map.getInstance().getDuel().isMember(p)) continue;
+			if(Duel.getInstance().isMember(p)) continue;
 			
 			p.getBP().closeInventory();
 			Arena arena = p.getArena();
@@ -92,7 +92,6 @@ public class Wave implements Listener {
 		}
 		
 		game.setStatus(Status.WAVE);
-		
 	}
 	
 	
@@ -100,10 +99,10 @@ public class Wave implements Listener {
 	public void waveEnded(PlayerEndWaveEvent e) {
 		
 		org.bukkit.entity.Player _p = e.getPlayer().getBP();
-		new BukkitRunnable() {@Override public void run() {if(_p != null) _p.setHealth(_p.getMaxHealth());}}.runTaskLater(Main.getInstance(), 5);
+		new BukkitRunnable() {@Override public void run() {if(_p != null) e.getPlayer().regen(1000);}}.runTaskLater(Main.getInstance(), 5);
 		for(PotionEffect eff: _p.getActivePotionEffects())
 			_p.removePotionEffect(eff.getType());
-		_p.setMaxHealth(_p.getMaxHealth() + 2);
+		e.getPlayer().addMaxHealth(2);
 		
 		if(!e.isDuel()) Chat.INFO.sendAll(Main.getInstance().getLanguage("messages.info.playerWinWave").replace("%player%", _p.getName()));
 		

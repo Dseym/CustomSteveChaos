@@ -6,8 +6,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import ru.dseymo.customstevechaos.Main;
+import ru.dseymo.customstevechaos.duels.Duel;
+import ru.dseymo.customstevechaos.items.shop.ShopMenu;
 import ru.dseymo.customstevechaos.items.upgrade.UpgradeMenu;
-import ru.dseymo.customstevechaos.map.Map;
 import ru.dseymo.customstevechaos.utils.Chat;
 
 public class GameExecute implements CommandExecutor {
@@ -25,10 +26,19 @@ public class GameExecute implements CommandExecutor {
 			duelProfiles(sender);
 		else if(args[0].equalsIgnoreCase("upgrade"))
 			upgrade(sender);
+		else if(args[0].equalsIgnoreCase("shop"))
+			shop(sender);
 		else
 			help(sender);
 		
 		return true;
+	}
+
+	private void shop(CommandSender sender) {
+		if(sender instanceof Player && Game.getInstance().getStatus() == Status.WAITING_WAVE) {
+			ShopMenu menu = new ShopMenu();
+			menu.open((Player)sender);
+		}
 	}
 
 	private void help(CommandSender sender) {
@@ -45,8 +55,8 @@ public class GameExecute implements CommandExecutor {
 	}
 
 	private void duelProfiles(CommandSender sender) {
-		if(sender instanceof Player && Map.getInstance().getDuel().isCreate())
-			Map.getInstance().getDuel().openMenu(Game.getInstance().getPlayer(((Player)sender).getUniqueId()));
+		if(sender instanceof Player && Duel.getInstance().isCreate())
+			Duel.getInstance().openMenu(Game.getInstance().getPlayer(((Player)sender).getUniqueId()));
 	}
 
 	private void stop(CommandSender sender) {

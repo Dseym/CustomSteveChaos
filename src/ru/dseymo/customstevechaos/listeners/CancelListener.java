@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import ru.dseymo.customstevechaos.duels.Duel;
 import ru.dseymo.customstevechaos.game.Game;
 import ru.dseymo.customstevechaos.game.Status;
-import ru.dseymo.customstevechaos.map.Map;
 import ru.dseymo.customstevechaos.players.Player;
 
 public class CancelListener implements Listener {
@@ -25,7 +24,7 @@ public class CancelListener implements Listener {
 		if(e.getEntityType() != EntityType.PLAYER) return;
 		Player p = Game.getInstance().getPlayer(((org.bukkit.entity.Player)e.getEntity()).getUniqueId());
 		
-		Duel duel = Map.getInstance().getDuel();
+		Duel duel = Duel.getInstance();
 		if((duel.isMember(p) && duel.isStart()) || (p.getArena() != null && !p.getArena().isDone())) return;
 		
 		e.setCancelled(true);
@@ -46,7 +45,7 @@ public class CancelListener implements Listener {
 	private void cancelPotion(PlayerItemConsumeEvent e) {
 		Player p = Game.getInstance().getPlayer(((org.bukkit.entity.Player)e.getPlayer()).getUniqueId());
 		
-		if((Map.getInstance().getDuel().isMember(p) && Game.getInstance().getStatus() == Status.WAVE) || (p.getArena() != null && !p.getArena().isDone())) return;
+		if((Duel.getInstance().isMember(p) && Game.getInstance().getStatus() == Status.WAVE) || (p.getArena() != null && !p.getArena().isDone())) return;
 		
 		e.setCancelled(true);
 	}

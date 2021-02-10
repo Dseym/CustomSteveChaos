@@ -1,5 +1,5 @@
 name: CustomSteveChaos
-version: 0.4
+version: 1.0
 main: ru.dseymo.customstevechaos.Main
 author: Dseymo
 commands:

@@ -21,7 +21,6 @@ public class PerkAlchemistListener implements Listener {
 		
 		Potion potion = Potion.fromItemStack(item);
 		try {potion.setLevel(potion.getLevel()+1);} catch (Exception e2) {return;}
-		potion.setLevel(potion.getLevel()+1);
 		potion.apply(item);
 		e.setItem(item);
 		

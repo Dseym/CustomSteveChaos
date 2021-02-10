@@ -1,13 +1,15 @@
-# CustomSteveChaos 0.6
+# CustomSteveChaos 1.0 BETA
 Аркадная мини игра для майнкрафт. Убивай мобов, сражайся на дуэлях и прокачивайся! / Arcade mini game for minecraft. Kill mobs, fight duels and upgrade!
 
 # ENG
 The idea for the mode was taken from the Cristalix server.
-## Update 0.6
-1. Added new mobs.
-2. Added new messages (remove language.yml).
-3. Added new items.
-4. Added new commands.
+## Version Minecraft
+#### 1.8
+## Update 1.0 BETA
+1. Added new messages (remove language.yml).
+2. Added new commands.
+3. Added list duels.
+4. Added shop items.
 5. Bugs fixed.
 
 ## Compile
@@ -25,11 +27,14 @@ The idea for the mode was taken from the Cristalix server.
 /map arena setspawnmob <name> - set location for mobs
 ```
 
-### Options duel
+### Create duels
 ```
-/map duel setview - set location for viewers
-/map duel setp1 - set location for player 1
-/map duel setp2 - set location for player 2
+/map duel create <name> - create duel
+/map duel remove <name> - remove duel
+/map duel list - list duels
+/map duel setp1 <name> - set location for player 1
+/map duel setp2 <name> - set location for player 2
+/map duel setview <name> - set location for viewers
 ```
 
 ### Other
@@ -47,11 +52,13 @@ For free usage.
 
 # RUS
 Идея режима взята с сервера Cristalix.
-## Обновление 0.6
-1. Добавлены новые мобы.
-2. Добавлены новые сообщения (удалите language.yml).
-3. Добавлены новые предметы.
-4. Добавлены новые команды.
+## Версия Майнкрафт
+#### 1.8
+## Обновление 1.0 BETA
+1. Добавлены новые сообщения (удалите language.yml).
+2. Добавлены новые команды.
+3. Добавлен список дуэлей.
+4. Добавлен магазин предметов.
 5. Исправлены баги.
 
 ## Компиляция
@@ -69,11 +76,14 @@ For free usage.
 /map arena setspawnmob <name> - установить локацию мобов
 ```
 
-### Настройка дуэли
+### Создание дуэлей
 ```
-/map duel setview - установить локацию зрителей
-/map duel setp1 - установить локацию игрока 1
-/map duel setp2 - установить локацию игрока 2
+/map duel create <name> - создать дуэль
+/map duel remove <name> - удалить дуэль
+/map duel list - список дуэлей
+/map duel setview <name> - установить локацию зрителей
+/map duel setp1 <name> - установить локацию игрока 1
+/map duel setp2 <name> - установить локацию игрока 2
 ```
 
 ### Другое

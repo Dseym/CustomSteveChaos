@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,29 +31,24 @@ import ru.dseymo.customstevechaos.utils.Chat;
 public class Duel implements Listener {
 	
 	@Getter
+	private static Duel instance = new Duel();
+	
+	
+	@Getter
 	private Player p1, p2;
 	@Getter
 	private HashMap<Player, Integer> rate1 = new HashMap<>(), rate2 = new HashMap<>();
 	@Getter
 	private boolean start = false;
 	@Getter
-	private Location lView;
-	private Location lP1, lP2;
-	@Getter
 	private SelectProfileMenu menu;
 	private BukkitTask timer;
-	
-	public Duel(Location lView, Location lP1, Location lP2) {
-		
-		this.lView = lView;
-		this.lP1 = lP1;
-		this.lP2 = lP2;
-		
-	}
+	@Getter
+	private DuelMap map;
 	
 	public boolean isCreate() {return menu != null;}
 	public void newDuel() {
-		if(Game.getInstance().getWave().getWave() < 1 || isCreate()) return;
+		if(Game.getInstance().getWave().getWave() < 3 || isCreate()) return;
 		
 		ArrayList<Player> players = Game.getInstance().getNotSpecPlayers();
 		Collections.shuffle(players);
@@ -63,12 +57,13 @@ public class Duel implements Listener {
 		Bukkit.getPluginManager().callEvent(event);
 		if(event.isCancelled()) return;
 		
+		map = Main.getInstance().getDuelConfig().getRandMap();
 		this.p1 = event.getP1();
 		this.p2 = event.getP2();
 		
 		String[] info = Main.getInstance().getLanguageArray("messages.info.infoDuel");
 		for(int i = 0; i < info.length; i++)
-			info[i] = info[i].replace("%p1%", p1.getBP().getName()).replace("%p2%", p2.getBP().getName());
+			info[i] = info[i].replace("%p1%", p1.getBP().getName()).replace("%p2%", p2.getBP().getName()).replace("%arena%", map.getName());
 		Chat.INFO.sendAll(info);
 		
 		menu = new SelectProfileMenu(this);
@@ -91,6 +86,7 @@ public class Duel implements Listener {
 		menu.remove();
 		menu = null;
 		if(timer != null) timer.cancel();
+		map = null;
 		
 		PlayerQuitEvent.getHandlerList().unregister(this);
 		EntityDamageEvent.getHandlerList().unregister(this);
@@ -128,8 +124,8 @@ public class Duel implements Listener {
 		
 		start = true;
 		
-		p1.getBP().teleport(lP1);
-		p2.getBP().teleport(lP2);
+		p1.getBP().teleport(map.getLP1());
+		p2.getBP().teleport(map.getLP2());
 		
 		timer = new BukkitRunnable() {
 			
@@ -250,7 +246,11 @@ public class Duel implements Listener {
 		p.deposit(deposit);
 		Chat.INFO.sendAll(Main.getInstance().getLanguage("messages.info.duelEnded").replace("%player%", p.getBP().getName()));
 		
-		Bukkit.getPluginManager().callEvent(new PlayerEndWaveEvent(lose, Game.getInstance().getWave().getWave(), 0, true));
+		deposit = getBank() != 0 ? getBank()/(rate1.size()+rate2.size()) : 0;
+		event = new PlayerEndWaveEvent(p, Game.getInstance().getWave().getWave(), deposit/2, true);
+		Bukkit.getPluginManager().callEvent(event);
+		deposit = event.getDeposit();
+		lose.deposit(deposit);
 		
 	}
 	

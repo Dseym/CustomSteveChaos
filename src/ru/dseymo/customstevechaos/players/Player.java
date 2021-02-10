@@ -25,6 +25,8 @@ public class Player {
 	private InfoDuel infoDuel = new InfoDuel();
 	@Getter
 	private Board board;
+	@Getter @Setter
+	private boolean editor = false;
 	
 	public Player(org.bukkit.entity.Player p) {this(p.getUniqueId());}
 	public Player(UUID uuid) {
@@ -57,7 +59,7 @@ public class Player {
 	}
 	
 	public org.bukkit.entity.Player getBP() {return Bukkit.getPlayer(uuid);}
-	public boolean isSpec() {return getBP().getGameMode() == GameMode.SPECTATOR;}
+	public boolean isSpec() {return editor || getBP().getGameMode() == GameMode.SPECTATOR;}
 	public void setSpec() {if(!isSpec()) getBP().setGameMode(GameMode.SPECTATOR);}
 	
 	public boolean isMoney(int money) {return this.money >= money;}
@@ -97,6 +99,25 @@ public class Player {
 		this.arena = arena;
 		arena.setPl(this);
 		
+	}
+	
+	public void regen(double health) {
+		if(health <= 0) return;
+		org.bukkit.entity.Player p = getBP();
+		if(p.getMaxHealth() < p.getHealth()+health) p.setHealth(p.getMaxHealth());
+		else p.setHealth(p.getHealth()+health);
+	}
+	
+	public void addMaxHealth(double health) {
+		if(health <= 0) return;
+		getBP().setMaxHealth(getBP().getMaxHealth()+health);
+		regen(health);
+	}
+	
+	public void removeMaxHealth(double health) {
+		org.bukkit.entity.Player p = getBP();
+		if(health <= 0 || p.getMaxHealth()-health <= 0) return;
+		p.setMaxHealth(p.getMaxHealth()-health);
 	}
 	
 	

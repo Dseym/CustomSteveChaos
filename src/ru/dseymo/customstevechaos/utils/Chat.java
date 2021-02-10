@@ -35,7 +35,7 @@ public enum Chat {
 		}
 		
 		for(String str: strs)
-			sender.sendMessage(colorize(pref + str));
+			sender.sendMessage(colorize((!str.isEmpty() ? pref : "") + str));
 	}
 	
 	public void sendAll(String... strs) {

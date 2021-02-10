@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.arenas.Arena;
+import ru.dseymo.customstevechaos.duels.Duel;
 import ru.dseymo.customstevechaos.events.GameStartEvent;
 import ru.dseymo.customstevechaos.events.GameStopEvent;
 import ru.dseymo.customstevechaos.items.SelectItemMenu;
@@ -75,7 +76,7 @@ public class Game implements Listener {
 		
 		Bukkit.getPluginManager().callEvent(new GameStopEvent(this, getNotSpecPlayers().size() == 0 ? null : getNotSpecPlayers().get(0)));
 		
-		Map.getInstance().getDuel().remove();
+		Duel.getInstance().remove();
 		
 		for(Arena arena: Map.getInstance().getArenas())
 			arena.stop();

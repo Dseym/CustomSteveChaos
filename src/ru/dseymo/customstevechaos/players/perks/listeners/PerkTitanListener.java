@@ -14,8 +14,7 @@ public class PerkTitanListener implements Listener {
 		if(e.getPerk() != Perk.TITAN) return;
 		Player p = e.getPlayer();
 		
-		p.getBP().setMaxHealth(p.getBP().getMaxHealth() + 8);
-		p.getBP().setHealth(p.getBP().getMaxHealth());
+		p.addMaxHealth(8);
 		
 	}
 	

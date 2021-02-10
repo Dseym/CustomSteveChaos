@@ -14,8 +14,12 @@ messages:
      itemCannotUpgrade: "Этот предмет не может быть улучшен"
      duelAlreadyStarted: "Дуэль уже началась"
      duelNotFound: "Сейчас нету дуэли"
+     notFoundDuel: "Дуэль не найдена"
      notEnoughMoney: "Не хватает монет"
      mobsBoost: "Мобы стали сильнее"
+     cooldown: "Идет откат"
+     arenaAlreadyCreated: "Арена уже существует"
+     duelAlreadyCreated: "Арена уже существует"
   success:
      arenaCreated: "Арена успешно создана"
      locChanged: "Локация успешно изменена"
@@ -26,7 +30,10 @@ messages:
      successStopped: "Игра успешно закончилась"
      mapReloaded: "Конфиг карты успешно перезагружен"
      waveEnded: "Волна закончилась"
-     arenaRemove: "Арена успешно удалена"
+     arenaRemoved: "Арена успешно удалена"
+     duelRemoved: "Дуэль успешно удалена"
+     itemBought: "Предмет успешно куплен"
+     duelCreated: "Дуэль успешно создана"
   info:
      playerWin: "%player% победил в игре"
      deposit: "+%money% монет"
@@ -50,6 +57,7 @@ messages:
      - "/game stop - &eостановить игру"
      - "/game duelProfiles - &eоткрыть меню профилей дуэлянцев"
      - "/game upgrade - &eоткрыть меню улучшения предмета"
+     - "/game shop - &eоткрыть меню магазина"
      - "/game help - &eэта команда"
      helpMap:
      - "&3Команды:"
@@ -59,14 +67,18 @@ messages:
      - "/map arena list - &eсписок всех арен"
      - "/map arena setspawn <name> - &eустановить спавн игроку"
      - "/map arena setspawnmob - &eустановить спавн мобам"
-     - "/map duel setp1 - &eустановить спавн 1-му игроку"
-     - "/map duel setp2 - &eустановить спавн 2-му игроку"
-     - "/map duel setview - &eустановить спавн зрителей"
+     - "/map duel create <name> - &eсоздать дуэль"
+     - "/map duel remove <name> - &eудалить дуэль"
+     - "/map duel list - &eсписок всех дуэлей"
+     - "/map duel setp1 <name> - &eустановить спавн 1-му игроку"
+     - "/map duel setp2 <name> - &eустановить спавн 2-му игроку"
+     - "/map duel setview <name> - &eустановить спавн зрителей"
      - "/map reload - &eперезагрузка конфига"
      - "/map help - &eэта команда"
      infoDuel:
      - "            Дуэль:"
      - "%p1% &lПРОТИВ&7 %p2%"
+     - "Арена: %arena%"
 
 bossbar:
    waitingPlayers: "Ожидание игроков. Осталось %players%"
@@ -88,6 +100,7 @@ menus:
       back: "Назад"
    duel:
       name: "Профили дуэльянцев"
+      nameArena: "Арена: %arena%"
       loreFormat:
       - "Побед: %wins%"
       - "Поражений: %loses%"
@@ -96,6 +109,9 @@ menus:
       - "ПКМ - посмотреть профиль"
    selectItem: "Выбор предмета"
    selectPerk: "Выбор перка"
+   shop:
+      name: "Магазин"
+      cost: "Цена: %money%"
 
 perks:
    berserk:
@@ -177,4 +193,34 @@ packs:
    caveSpiders: "Пещерные пауки"
    silverfishes: "Чешуйницы"
    pigZombies: "Свинозомби"
+
+items:
+   midas:
+      name: "Мидас"
+      lore:
+      - "При ПКМ на моба убивает его и дает вам 190 монет"
+      - "Перезарядка: 95 секунд"
+      used: "Предмет был использован"
+   bookDamage:
+      name: "Книга урона"
+      lore:
+      - "Дает +1 урон мечам и +0.5 урона лукам на всю игру"
+      used: "Предмет был использован"
+   bookHealth:
+      name: "Книга жизни"
+      lore:
+      - "Дает вам +2 сердца на всю игру"
+      used: "Предмет был использован"
+   bookRegen:
+      name: "Книга регенерации"
+      lore:
+      - "Увеличивает восстановление здоровья на 0.5 сердца"
+      used: "Предмет был использован"
+   thorns:
+      name: "Шипы"
+      lore:
+      - "Следующие 6 сек. вы блокируете и"
+      - "возвращаете 50% полученного урона врагу"
+      - "Перезарядка: 40 секунд"
+      used: "Предмет был использован"
 

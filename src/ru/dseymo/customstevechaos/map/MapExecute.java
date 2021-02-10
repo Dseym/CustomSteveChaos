@@ -30,18 +30,62 @@ public class MapExecute implements CommandExecutor {
 			arenaSetSpawn(p, args);
 		else if(args[0].equalsIgnoreCase("arena") && args[1].equalsIgnoreCase("setspawnmob"))
 			arenaSetSpawnMob(p, args);
+		else if(args[0].equalsIgnoreCase("duel") && args[1].equalsIgnoreCase("create"))
+			duelCreate(p, args);
+		else if(args[0].equalsIgnoreCase("duel") && args[1].equalsIgnoreCase("remove"))
+			duelRemove(p, args);
+		else if(args[0].equalsIgnoreCase("duel") && args[1].equalsIgnoreCase("list"))
+			duelList(p, args);
 		else if(args[0].equalsIgnoreCase("duel") && args[1].equalsIgnoreCase("setp1"))
-			duelSetp1(p);
+			duelSetp1(p, args);
 		else if(args[0].equalsIgnoreCase("duel") && args[1].equalsIgnoreCase("setp2"))
-			duelSetp2(p);
+			duelSetp2(p, args);
 		else if(args[0].equalsIgnoreCase("duel") && args[1].equalsIgnoreCase("setview"))
-			duelSetView(p);
+			duelSetView(p, args);
 		else if(args[0].equalsIgnoreCase("reload"))
 			reload(p);
 		else
 			help(p);
 		
 		return true;
+	}
+
+	private void duelList(Player p, String[] args) {
+		
+		String str = "";
+		for(String _str: Main.getInstance().getDuelConfig().getMaps())
+			str += "&9&l" + _str + "&8; ";
+		
+		Chat.INFO.send(p, str);
+		
+	}
+
+	private void duelRemove(Player p, String[] args) {
+		if(args.length < 3) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notEnoughArgs"));
+			return;
+		} else if(!Main.getInstance().getDuelConfig().contains(args[2])) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notFoundDuel"));
+			return;
+		}
+		
+		Main.getInstance().getDuelConfig().remove(args[2]);
+		Chat.SUCCESS.send(p, Main.getInstance().getLanguage("messages.success.duelRemoved"));
+		
+	}
+
+	private void duelCreate(Player p, String[] args) {
+		if(args.length < 3) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notEnoughArgs"));
+			return;
+		} else if(Main.getInstance().getDuelConfig().contains(args[2])) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.duelAlreadyCreated"));
+			return;
+		}
+		
+		Main.getInstance().getDuelConfig().create(args[2], p.getLocation(), p.getLocation(), p.getLocation());
+		Chat.SUCCESS.send(p, Main.getInstance().getLanguage("messages.success.duelCreated"));
+		
 	}
 
 	private void arenaList(Player p) {
@@ -63,7 +107,7 @@ public class MapExecute implements CommandExecutor {
 			return;
 		}
 		
-		Chat.SUCCESS.send(p, Main.getInstance().getLanguage("messages.success.arenaRemove"));
+		Chat.SUCCESS.send(p, Main.getInstance().getLanguage("messages.success.arenaRemoved"));
 		Main.getInstance().getArenasConfig().remove(args[2]);
 		
 	}
@@ -81,23 +125,44 @@ public class MapExecute implements CommandExecutor {
 		
 	}
 
-	private void duelSetView(Player p) {
+	private void duelSetView(Player p, String[] args) {
+		if(args.length < 3) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notEnoughArgs"));
+			return;
+		} else if(!Main.getInstance().getDuelConfig().contains(args[2])) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notFoundDuel"));
+			return;
+		}
 		
-		Main.getInstance().getMapConfig().duelSetView(p.getLocation());
+		Main.getInstance().getDuelConfig().setLView(args[2], p.getLocation());
 		Chat.SUCCESS.send(p, Main.getInstance().getLanguage("messages.success.locChanged"));
 		
 	}
 
-	private void duelSetp2(Player p) {
+	private void duelSetp2(Player p, String[] args) {
+		if(args.length < 3) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notEnoughArgs"));
+			return;
+		} else if(!Main.getInstance().getDuelConfig().contains(args[2])) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notFoundDuel"));
+			return;
+		}
 		
-		Main.getInstance().getMapConfig().duelSetp2(p.getLocation());
+		Main.getInstance().getDuelConfig().setLP2(args[2], p.getLocation());
 		Chat.SUCCESS.send(p, Main.getInstance().getLanguage("messages.success.locChanged"));
 		
 	}
 
-	private void duelSetp1(Player p) {
+	private void duelSetp1(Player p, String[] args) {
+		if(args.length < 3) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notEnoughArgs"));
+			return;
+		} else if(!Main.getInstance().getDuelConfig().contains(args[2])) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notFoundDuel"));
+			return;
+		}
 		
-		Main.getInstance().getMapConfig().duelSetp1(p.getLocation());
+		Main.getInstance().getDuelConfig().setLP1(args[2], p.getLocation());
 		Chat.SUCCESS.send(p, Main.getInstance().getLanguage("messages.success.locChanged"));
 		
 	}
@@ -133,6 +198,9 @@ public class MapExecute implements CommandExecutor {
 	private void arenaCreate(Player p, String[] args) {
 		if(args.length < 3) {
 			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notEnoughArgs"));
+			return;
+		} else if(Main.getInstance().getArenasConfig().contains(args[2])) {
+			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.arenaAlreadyCreated"));
 			return;
 		}
 		

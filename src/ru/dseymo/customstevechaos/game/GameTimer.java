@@ -15,7 +15,7 @@ public class GameTimer extends BukkitRunnable {
 	@Getter
 	private BossBar bar = new BossBar(Main.getInstance(), Main.getInstance().getLanguage("bossbar.waitingGame"));
 	private Game game = Game.getInstance();
-	private Duel duel = Map.getInstance().getDuel();
+	private Duel duel = Duel.getInstance();
 
 	@Override
 	public void run() {

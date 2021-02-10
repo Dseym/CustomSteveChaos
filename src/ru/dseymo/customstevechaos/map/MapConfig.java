@@ -9,8 +9,8 @@ import ru.dseymo.customstevechaos.utils.LocationUtil;
 
 public class MapConfig extends Config {
 
-	public MapConfig(File file, boolean fileJar) {
-		super(file, fileJar);
+	public MapConfig(File file) {
+		super(file, true);
 	}
 	
 	public void setLobby(Location loc) {

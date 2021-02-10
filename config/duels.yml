@@ -1,0 +1,12 @@
+test1:
+   locView: "world 0 105 10"
+   locPlayer1: "world 0 100 5"
+   locPlayer2: "world 0 100 -5"
+test2:
+   locView: "world 0 105 10"
+   locPlayer1: "world 0 100 5"
+   locPlayer2: "world 0 100 -5"
+test3:
+   locView: "world 0 105 10"
+   locPlayer1: "world 0 100 5"
+   locPlayer2: "world 0 100 -5"

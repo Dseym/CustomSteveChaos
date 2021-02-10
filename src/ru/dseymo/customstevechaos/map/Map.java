@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import org.bukkit.Location;
 
 import lombok.Getter;
+import ru.dseymo.customstevechaos.Main;
 import ru.dseymo.customstevechaos.arenas.Arena;
 import ru.dseymo.customstevechaos.arenas.ArenasConfig;
-import ru.dseymo.customstevechaos.duels.Duel;
 import ru.dseymo.customstevechaos.game.Game;
 
 public class Map {
@@ -17,13 +17,13 @@ public class Map {
 	
 	public static void loadMap(MapConfig map, ArenasConfig arenas) {
 		if(Game.getInstance().isStart()) return;
+		instance.remove();
 		instance = new Map();
 		
 		instance.map = map;
 		instance.arenasConfig = arenas;
 		for(String str: arenas.getArenas())
 			instance.arenas.add(new Arena(str, arenas.getSpawn(str), arenas.getSpawnMob(str)));
-		instance.duel = new Duel(map.getDuelView(), map.getDuelp1(), map.getDuelp2());
 		
 	}
 	
@@ -32,14 +32,18 @@ public class Map {
 	private ArenasConfig arenasConfig;
 	@Getter
 	private ArrayList<Arena> arenas = new ArrayList<>();
-	@Getter
-	private Duel duel;
+	
+	public void remove() {
+		for(Arena arena: arenas)
+			arena.remove();
+	}
 	
 	public Location getLobby() {return map.getLobby();}
 	public void reload() {
 		
 		map.load();
 		arenasConfig.load();
+		Main.getInstance().getDuelConfig().load();
 		loadMap(map, arenasConfig);
 		
 	}

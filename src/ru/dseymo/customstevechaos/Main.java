@@ -9,7 +9,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
+import lombok.Setter;
 import ru.dseymo.customstevechaos.arenas.ArenasConfig;
+import ru.dseymo.customstevechaos.duels.DuelConfig;
 import ru.dseymo.customstevechaos.game.GameExecute;
 import ru.dseymo.customstevechaos.game.GameTimer;
 import ru.dseymo.customstevechaos.listeners.CancelListener;
@@ -27,18 +29,22 @@ public class Main extends JavaPlugin {
 	@Getter
 	private static Main instance;
 	
+	
 	private GameTimer timer;
+	@Setter
 	private int minPlayers = 3;
 	private MapConfig mapConfig;
 	private ArenasConfig arenasConfig;
+	private DuelConfig duelConfig;
 	private Config language;
 	
 	@Override
 	public void onEnable() {
 		instance = this;
 		language = new Config(new File(getDataFolder() + "/language.yml"), true);
-		mapConfig = new MapConfig(new File(getDataFolder() + "/map.yml"), true);
-		arenasConfig = new ArenasConfig(new File(getDataFolder() + "/arenas.yml"), true);
+		mapConfig = new MapConfig(new File(getDataFolder() + "/map.yml"));
+		arenasConfig = new ArenasConfig(new File(getDataFolder() + "/arenas.yml"));
+		duelConfig = new DuelConfig(new File(getDataFolder() + "/duels.yml"));
 		
 		Map.loadMap(mapConfig, arenasConfig);
 		
@@ -61,7 +67,6 @@ public class Main extends JavaPlugin {
 		mn.registerEvents(new PotionListener(), this);
 		
 	}
-	
 	
 	@Override
 	public void onDisable() {

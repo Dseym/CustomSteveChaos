@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -45,6 +46,15 @@ public class Arena implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
 	}
 	
+	public void remove() {
+		
+		EntityDamageEvent.getHandlerList().unregister(this);
+		EntityDeathEvent.getHandlerList().unregister(this);
+		
+		pl = null;
+		
+	}
+	
 	public void spawnMobs(PackMobs pack) {
 		if(!isDone()) return;
 		
@@ -67,6 +77,7 @@ public class Arena implements Listener {
 					ent.setMaxHealth(wave*2);
 					ent.setHealth(ent.getMaxHealth());
 					mobs.add(ent);
+					((Creature)ent).setTarget(pl.getBP());
 					
 				}
 				
@@ -113,8 +124,8 @@ public class Arena implements Listener {
 		for(LivingEntity ent: mobs)
 			ent.remove();
 		
-		Duel duel = Map.getInstance().getDuel();
-		if(pl != null && pl.getBP() != null && !pl.isSpec()) pl.getBP().teleport(duel.isStart() ? duel.getLView() : Map.getInstance().getLobby());
+		Duel duel = Duel.getInstance();
+		if(pl != null && pl.getBP() != null && !pl.isSpec()) pl.getBP().teleport(duel.isStart() ? duel.getMap().getLView() : Map.getInstance().getLobby());
 		
 	}
 	
@@ -131,8 +142,8 @@ public class Arena implements Listener {
 		mobs.remove(e.getEntity());
 		if(isDone()) {
 			
-			Duel duel = Map.getInstance().getDuel();
-			pl.getBP().teleport(duel.isStart() ? duel.getLView() : Map.getInstance().getLobby());
+			Duel duel = Duel.getInstance();
+			pl.getBP().teleport(duel.isStart() ? duel.getMap().getLView() : Map.getInstance().getLobby());
 			
 			int deposit = Game.getInstance().getWave().getWave()*50 + 150;
 			PlayerEndWaveEvent event = new PlayerEndWaveEvent(pl, Game.getInstance().getWave().getWave(), deposit, false);
@@ -154,7 +165,7 @@ public class Arena implements Listener {
 		
 		if(!p.removeLive()) {
 			
-			_p.setHealth(_p.getMaxHealth());
+			p.regen(1000);
 			_p.teleport(spawn);
 			
 		} else {
@@ -165,19 +176,6 @@ public class Arena implements Listener {
 		}
 		
 		e.setCancelled(true);
-	}
-	
-	
-	@Override
-	public void finalize() {
-		
-		EntityDamageEvent.getHandlerList().unregister(this);
-		EntityDeathEvent.getHandlerList().unregister(this);
-		
-		spawn = null;
-		spawnMob = null;
-		pl = null;
-		
 	}
 	
 }
