@@ -14,29 +14,28 @@ public class Config {
 	private static String folder = "config";
 	
 	private File file;
-	private FileConfiguration config;
+	protected FileConfiguration config;
+	private boolean fileJar;
 	
 	public Config(File file, boolean fileJar) {
 		
 		this.file = file;
-		file.getParentFile().mkdirs();
+		this.fileJar = fileJar;
 		
+		load();
+	}
+	public Config(String file, boolean fileJar) {this(new File(file), fileJar);}
+	
+	public void save() {try {config.save(file);} catch (Exception e) {}}
+	public void load() {
 		try {
-			
 			if (!file.exists())
 				if (fileJar) FileUtil.copyFromJar(getClass().getResourceAsStream("/" + folder + "/" + file.getName()), file);
 				else file.createNewFile();
 			
+			config = YamlConfiguration.loadConfiguration(file);
 		} catch (Exception e) {e.printStackTrace();}
-		
-		load();
-		
 	}
-	
-	public File getFile() {return file;}
-	
-	public void save() {try {config.save(file);} catch (Exception e) {}}
-	public void load() {config = YamlConfiguration.loadConfiguration(file);}
 	public boolean contains(String path) {return config.contains(path);}
 	public void set(String path, Object obj) {config.set(path, obj);}
 	public Object get(String path) {return config.get(path);}

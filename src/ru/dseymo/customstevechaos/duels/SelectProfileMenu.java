@@ -46,12 +46,12 @@ public class SelectProfileMenu extends Menu {
 	@Override
 	public boolean onClick(org.bukkit.entity.Player _p, ItemStack item, int slot, ClickType click) {
 		Player p;
-		if(slot == 11) p = p1;
-		else if(slot == 15) p = p2;
+		if(slot == 20) p = p1;
+		else if(slot == 24) p = p2;
 		else return true;
 		
 		if(click.isLeftClick()) {
-			if(duel.isMember(p)) {
+			if(duel.isMember(Game.getInstance().getPlayer(_p.getUniqueId()))) {
 				Chat.FAIL.send(_p, Main.getInstance().getLanguage("messages.fail.youMemberDuel"));
 				return true;
 			}

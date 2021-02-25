@@ -60,7 +60,7 @@ public class GameExecute implements CommandExecutor {
 	}
 
 	private void stop(CommandSender sender) {
-		if(!sender.hasPermission("customstevechaos.admin")) {
+		if(sender.hasPermission("customstevechaos.admin")) {
 			
 			Game.getInstance().stop();
 			Chat.SUCCESS.send(sender, Main.getInstance().getLanguage("messages.success.successStopped"));
@@ -69,7 +69,7 @@ public class GameExecute implements CommandExecutor {
 	}
 	
 	private void start(CommandSender sender) {
-		if(!sender.hasPermission("customstevechaos.admin")) {
+		if(sender.hasPermission("customstevechaos.admin")) {
 			if(Game.getInstance().getStatus() != Status.WAITING_GAME) {
 				Chat.FAIL.send(sender, Main.getInstance().getLanguage("messages.fail.alreadyStarted"));
 				return;
