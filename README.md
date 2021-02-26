@@ -1,20 +1,16 @@
-# CustomSteveChaos 1.0 BETA
+# CustomSteveChaos 1.0
 Аркадная мини игра для майнкрафт. Убивай мобов, сражайся на дуэлях и прокачивайся! / Arcade mini game for minecraft. Kill mobs, fight duels and upgrade!
 
 # ENG
 The idea for the mode was taken from the Cristalix server.
 ## Version Minecraft
-#### 1.8
-## Update 1.0 BETA
-1. Added new messages (remove language.yml).
-2. Added new commands.
-3. Added list duels.
-4. Added shop items.
-5. Bugs fixed.
+#### 1.8.8
+## Update 1.0
+1. Bugs fixed.
 
 ## Compile
 1. Download the source code and upload it to Eclipse for example.
-2. Add External JARs: [Server Core](https://getbukkit.org/download/craftbukkit) 1.8.
+2. Add External JARs: [Server Core](https://getbukkit.org/download/craftbukkit) 1.8.8.
 3. Install [lombok](https://projectlombok.org/).
 
 ## Commands
@@ -53,17 +49,13 @@ For free usage.
 # RUS
 Идея режима взята с сервера Cristalix.
 ## Версия Майнкрафт
-#### 1.8
-## Обновление 1.0 BETA
-1. Добавлены новые сообщения (удалите language.yml).
-2. Добавлены новые команды.
-3. Добавлен список дуэлей.
-4. Добавлен магазин предметов.
-5. Исправлены баги.
+#### 1.8.8
+## Обновление 1.0
+1. Исправлены баги.
 
 ## Компиляция
 1. Скачай исходники и загрузи, например, в Eclipse.
-2. Добавь внешние JARs: [Server Core](https://getbukkit.org/download/craftbukkit) 1.8.
+2. Добавь внешние JARs: [Server Core](https://getbukkit.org/download/craftbukkit) 1.8.8.
 3. Установи [lombok](https://projectlombok.org/).
 
 ## Команды

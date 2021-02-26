@@ -40,6 +40,8 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		getDataFolder().mkdirs();
+		
 		instance = this;
 		language = new Config(new File(getDataFolder() + "/language.yml"), true);
 		mapConfig = new MapConfig(new File(getDataFolder() + "/map.yml"));

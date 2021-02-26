@@ -123,6 +123,17 @@ public class Duel implements Listener {
 		if(event.isCancelled()) return;
 		
 		start = true;
+		boolean onlineP1 = p1.getBP().isOnline(), onlineP2 = p2.getBP().isOnline();
+		if(!onlineP1 && !onlineP2) {
+			remove();
+			return;
+		} else if(!onlineP1) {
+			win(p2);
+			return;
+		} else if(!onlineP2) {
+			win(p1);
+			return;
+		}
 		
 		p1.getBP().teleport(map.getLP1());
 		p2.getBP().teleport(map.getLP2());
@@ -247,7 +258,7 @@ public class Duel implements Listener {
 		Chat.INFO.sendAll(Main.getInstance().getLanguage("messages.info.duelEnded").replace("%player%", p.getBP().getName()));
 		
 		deposit = getBank() != 0 ? getBank()/(rate1.size()+rate2.size()) : 0;
-		event = new PlayerEndWaveEvent(p, Game.getInstance().getWave().getWave(), deposit/2, true);
+		event = new PlayerEndWaveEvent(lose, Game.getInstance().getWave().getWave(), deposit/2, true);
 		Bukkit.getPluginManager().callEvent(event);
 		deposit = event.getDeposit();
 		lose.deposit(deposit);
